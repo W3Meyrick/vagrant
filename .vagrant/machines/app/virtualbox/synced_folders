@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/Users/luke/Projects/general","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}},"virtualbox":{"app":{"create":true,"group":"vagrant","owner":"vagrant","id":"app","guestpath":"/var/www/app","hostpath":"/Users/luke/Projects/general/app","disabled":false,"__vagrantfile":true}}}
