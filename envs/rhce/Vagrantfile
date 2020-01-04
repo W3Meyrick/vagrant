@@ -1,20 +1,40 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+  end
 
-  config.vm.define "app" do |app|
-    app.vm.hostname = "app"
-    app.vm.synced_folder "app/", "/var/www/app",
+  config.vm.define "rhce" do |rhce|
+    rhce.vm.hostname = "rhce"
+    rhce.vm.synced_folder "sync/", "/hostdir",
       create: true, group: "vagrant", owner: "vagrant",
-      id: "app"
-    app.vm.network "forwarded_port", guest: 8080, host: 8081,
+      id: "rhce"
+    rhce.vm.network "forwarded_port", guest: 8080, host: 8081,
       auto_correct: true, id: "wanderer-app"
-    app.vm.network "private_network", ip: "192.168.200.10"
+    rhce.vm.network "private_network", ip: "192.168.200.10"
+    rhce.vm.network "private_network", ip: "192.168.200.11"
   end
 
-  config.vm.define "prom" do |prom|
-    prom.vm.hostname = "prom"
-    prom.vm.network "forwarded_port", guest: 9090, host: 9090,
-      auto_correct: true, id: "prometheus"
-    prom.vm.network "private_network", ip: "192.168.200.11"
+  config.vm.define "skynet" do |skynet|
+    skynet.vm.hostname = "skynet"
+    skynet.vm.synced_folder "sync/", "/hostdir",
+      create: true, group: "vagrant", owner: "vagrant",
+      id: "skynet"
+    skynet.vm.network "forwarded_port", guest: 8080, host: 8082,
+      auto_correct: true, id: "wanderer-app"
+    skynet.vm.network "private_network", ip: "192.168.200.30"
+    skynet.vm.network "private_network", ip: "192.168.200.31"
   end
+
+  config.vm.define "huxley" do |huxley|
+    huxley.vm.hostname = "huxley"
+    huxley.vm.synced_folder "sync/", "/hostdir",
+      create: true, group: "vagrant", owner: "vagrant",
+      id: "huxley"
+    huxley.vm.network "forwarded_port", guest: 8080, host: 8083,
+      auto_correct: true, id: "wanderer-app"
+    huxley.vm.network "private_network", ip: "192.168.200.40"
+    huxley.vm.network "private_network", ip: "192.168.200.41"
+  end
+
 end
